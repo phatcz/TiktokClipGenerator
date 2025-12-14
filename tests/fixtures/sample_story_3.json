@@ -1,0 +1,271 @@
+{
+  "description": "Test fixture 3: สร้างแบรนด์ สำหรับธุรกิจ SME",
+  "story": {
+    "goal": "สร้างแบรนด์",
+    "product": "Brand Builder Suite",
+    "audience": "เจ้าของธุรกิจ SME",
+    "platform": "Instagram",
+    "scenes": [
+      {
+        "id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "ทำไมBrand Builder Suiteถึงเป็นที่นิยมในกลุ่มเจ้าของธุรกิจ SME"
+      },
+      {
+        "id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "ความยากในการทำให้เจ้าของธุรกิจ SMEรู้จักและเชื่อใจ"
+      },
+      {
+        "id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "แนะนำBrand Builder Suiteที่เป็นทางออกสำหรับเจ้าของธุรกิจ SME"
+      },
+      {
+        "id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้เจ้าของธุรกิจ SMEลองใช้Brand Builder Suiteและติดตามผลลัพธ์"
+      }
+    ]
+  },
+  "phase2_output": {
+    "story": {
+      "goal": "สร้างแบรนด์",
+      "product": "Brand Builder Suite",
+      "audience": "เจ้าของธุรกิจ SME",
+      "platform": "Instagram",
+      "scenes": [
+        {
+          "id": 1,
+          "purpose": "hook",
+          "emotion": "curious",
+          "duration": 3,
+          "description": "ทำไมBrand Builder Suiteถึงเป็นที่นิยมในกลุ่มเจ้าของธุรกิจ SME"
+        },
+        {
+          "id": 2,
+          "purpose": "conflict",
+          "emotion": "frustrated",
+          "duration": 5,
+          "description": "ความยากในการทำให้เจ้าของธุรกิจ SMEรู้จักและเชื่อใจ"
+        },
+        {
+          "id": 3,
+          "purpose": "reveal",
+          "emotion": "relief",
+          "duration": 5,
+          "description": "แนะนำBrand Builder Suiteที่เป็นทางออกสำหรับเจ้าของธุรกิจ SME"
+        },
+        {
+          "id": 4,
+          "purpose": "close",
+          "emotion": "confident",
+          "duration": 4,
+          "description": "เชิญชวนให้เจ้าของธุรกิจ SMEลองใช้Brand Builder Suiteและติดตามผลลัพธ์"
+        }
+      ]
+    },
+    "characters": [
+      {
+        "id": 1,
+        "name": "ผู้เชี่ยวชาญ",
+        "description": "ผู้เชี่ยวชาญที่เข้าใจปัญหาและแนะนำBrand Builder Suite",
+        "style": "professional",
+        "age_range": "30-45",
+        "personality": "confident, knowledgeable",
+        "image_url": "https://mock-images.google.com/generated/999999.jpg",
+        "image_prompt": "ผู้เชี่ยวชาญ, professional style, age 30-45, confident, knowledgeable, suitable for เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 2,
+        "name": "ผู้ใช้จริง",
+        "description": "ตัวแทนของเจ้าของธุรกิจ SMEที่ประสบความสำเร็จด้วยBrand Builder Suite",
+        "style": "relatable",
+        "age_range": "25-40",
+        "personality": "friendly, authentic",
+        "image_url": "https://mock-images.google.com/generated/101010.jpg",
+        "image_prompt": "ผู้ใช้จริง, relatable style, age 25-40, friendly, authentic, suitable for เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 3,
+        "name": "ผู้สอน",
+        "description": "ผู้สอนที่ช่วยให้เจ้าของธุรกิจ SMEเข้าใจBrand Builder Suite",
+        "style": "educational",
+        "age_range": "28-42",
+        "personality": "patient, clear",
+        "image_url": "https://mock-images.google.com/generated/202020.jpg",
+        "image_prompt": "ผู้สอน, educational style, age 28-42, patient, clear, suitable for เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 4,
+        "name": "ผู้เริ่มต้น",
+        "description": "คนที่เพิ่งเริ่มต้นและกำลังเรียนรู้เกี่ยวกับBrand Builder Suite",
+        "style": "approachable",
+        "age_range": "20-35",
+        "personality": "curious, eager",
+        "image_url": "https://mock-images.google.com/generated/303030.jpg",
+        "image_prompt": "ผู้เริ่มต้น, approachable style, age 20-35, curious, eager, suitable for เจ้าของธุรกิจ SME audience"
+      }
+    ],
+    "locations": [
+      {
+        "id": 1,
+        "name": "สถานที่ทำงาน",
+        "description": "สถานที่ทำงานที่สะท้อนปัญหาและความท้าทาย",
+        "scene_purposes": ["hook", "conflict"],
+        "style": "modern office",
+        "mood": "professional, challenging",
+        "image_url": "https://mock-images.google.com/generated/404040.jpg",
+        "image_prompt": "สถานที่ทำงาน, modern office style, professional, challenging, suitable for Instagram content, เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 2,
+        "name": "พื้นที่ดิจิทัล",
+        "description": "พื้นหลังที่แสดงผลลัพธ์บนแพลตฟอร์มดิจิทัล",
+        "scene_purposes": ["reveal", "close"],
+        "style": "digital interface",
+        "mood": "modern, tech-forward",
+        "image_url": "https://mock-images.google.com/generated/505050.jpg",
+        "image_prompt": "พื้นที่ดิจิทัล, digital interface style, modern, tech-forward, suitable for Instagram content, เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 3,
+        "name": "บ้าน/พื้นที่ส่วนตัว",
+        "description": "พื้นที่ส่วนตัวที่สะท้อนความสะดวกสบายและความเป็นส่วนตัว",
+        "scene_purposes": ["reveal", "close"],
+        "style": "cozy home",
+        "mood": "comfortable, personal",
+        "image_url": "https://mock-images.google.com/generated/606060.jpg",
+        "image_prompt": "บ้าน/พื้นที่ส่วนตัว, cozy home style, comfortable, personal, suitable for Instagram content, เจ้าของธุรกิจ SME audience"
+      },
+      {
+        "id": 4,
+        "name": "พื้นที่สาธารณะ",
+        "description": "พื้นที่สาธารณะที่สะท้อนการใช้งานจริง",
+        "scene_purposes": ["hook", "conflict", "reveal"],
+        "style": "public space",
+        "mood": "realistic, relatable",
+        "image_url": "https://mock-images.google.com/generated/707070.jpg",
+        "image_prompt": "พื้นที่สาธารณะ, public space style, realistic, relatable, suitable for Instagram content, เจ้าของธุรกิจ SME audience"
+      }
+    ],
+    "selection": {
+      "selected_character_id": 2,
+      "selected_location_id": 2
+    }
+  },
+  "expected_storyboard": {
+    "story": {
+      "goal": "สร้างแบรนด์",
+      "product": "Brand Builder Suite",
+      "audience": "เจ้าของธุรกิจ SME",
+      "platform": "Instagram"
+    },
+    "selected_character": {
+      "id": 2,
+      "name": "ผู้ใช้จริง",
+      "style": "relatable"
+    },
+    "selected_location": {
+      "id": 2,
+      "name": "พื้นที่ดิจิทัล",
+      "style": "digital interface"
+    },
+    "scenes": [
+      {
+        "scene_id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "ทำไมBrand Builder Suiteถึงเป็นที่นิยมในกลุ่มเจ้าของธุรกิจ SME",
+        "keyframes": [
+          {
+            "id": "scene_1_kf_1",
+            "timing": 1.5,
+            "description": "string",
+            "image_path": "storyboard/scene_1/keyframe_1.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "ความยากในการทำให้เจ้าของธุรกิจ SMEรู้จักและเชื่อใจ",
+        "keyframes": [
+          {
+            "id": "scene_2_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_2_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "แนะนำBrand Builder Suiteที่เป็นทางออกสำหรับเจ้าของธุรกิจ SME",
+        "keyframes": [
+          {
+            "id": "scene_3_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_3_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้เจ้าของธุรกิจ SMEลองใช้Brand Builder Suiteและติดตามผลลัพธ์",
+        "keyframes": [
+          {
+            "id": "scene_4_kf_1",
+            "timing": 1.33,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_4_kf_2",
+            "timing": 2.67,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,271 @@
+{
+  "description": "Test fixture 1: ขายคอร์สออนไลน์ สำหรับมือใหม่",
+  "story": {
+    "goal": "ขายคอร์สออนไลน์",
+    "product": "AI Creator Tool",
+    "audience": "มือใหม่ ไม่เก่งเทค",
+    "platform": "Facebook Reel",
+    "scenes": [
+      {
+        "id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "ตั้งคำถามว่าทำไมมือใหม่ ไม่เก่งเทคถึงยังไม่ได้เริ่มใช้AI Creator Tool"
+      },
+      {
+        "id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "โชว์ความยุ่งยากที่มือใหม่ ไม่เก่งเทคต้องเจอเมื่อต้องเรียนรู้เอง"
+      },
+      {
+        "id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "แนะนำAI Creator Toolที่ทำให้มือใหม่ ไม่เก่งเทคเรียนรู้ได้ง่ายและรวดเร็ว"
+      },
+      {
+        "id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้มือใหม่ ไม่เก่งเทคสมัครเรียนAI Creator Tool"
+      }
+    ]
+  },
+  "phase2_output": {
+    "story": {
+      "goal": "ขายคอร์สออนไลน์",
+      "product": "AI Creator Tool",
+      "audience": "มือใหม่ ไม่เก่งเทค",
+      "platform": "Facebook Reel",
+      "scenes": [
+        {
+          "id": 1,
+          "purpose": "hook",
+          "emotion": "curious",
+          "duration": 3,
+          "description": "ตั้งคำถามว่าทำไมมือใหม่ ไม่เก่งเทคถึงยังไม่ได้เริ่มใช้AI Creator Tool"
+        },
+        {
+          "id": 2,
+          "purpose": "conflict",
+          "emotion": "frustrated",
+          "duration": 5,
+          "description": "โชว์ความยุ่งยากที่มือใหม่ ไม่เก่งเทคต้องเจอเมื่อต้องเรียนรู้เอง"
+        },
+        {
+          "id": 3,
+          "purpose": "reveal",
+          "emotion": "relief",
+          "duration": 5,
+          "description": "แนะนำAI Creator Toolที่ทำให้มือใหม่ ไม่เก่งเทคเรียนรู้ได้ง่ายและรวดเร็ว"
+        },
+        {
+          "id": 4,
+          "purpose": "close",
+          "emotion": "confident",
+          "duration": 4,
+          "description": "เชิญชวนให้มือใหม่ ไม่เก่งเทคสมัครเรียนAI Creator Tool"
+        }
+      ]
+    },
+    "characters": [
+      {
+        "id": 1,
+        "name": "ผู้เชี่ยวชาญ",
+        "description": "ผู้เชี่ยวชาญที่เข้าใจปัญหาและแนะนำAI Creator Tool",
+        "style": "professional",
+        "age_range": "30-45",
+        "personality": "confident, knowledgeable",
+        "image_url": "https://mock-images.google.com/generated/123456.jpg",
+        "image_prompt": "ผู้เชี่ยวชาญ, professional style, age 30-45, confident, knowledgeable, suitable for มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 2,
+        "name": "ผู้ใช้จริง",
+        "description": "ตัวแทนของมือใหม่ ไม่เก่งเทคที่ประสบความสำเร็จด้วยAI Creator Tool",
+        "style": "relatable",
+        "age_range": "25-40",
+        "personality": "friendly, authentic",
+        "image_url": "https://mock-images.google.com/generated/234567.jpg",
+        "image_prompt": "ผู้ใช้จริง, relatable style, age 25-40, friendly, authentic, suitable for มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 3,
+        "name": "ผู้เริ่มต้น",
+        "description": "คนที่เพิ่งเริ่มต้นและกำลังเรียนรู้เกี่ยวกับAI Creator Tool",
+        "style": "approachable",
+        "age_range": "20-35",
+        "personality": "curious, eager",
+        "image_url": "https://mock-images.google.com/generated/345678.jpg",
+        "image_prompt": "ผู้เริ่มต้น, approachable style, age 20-35, curious, eager, suitable for มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 4,
+        "name": "ผู้สร้างคอนเทนต์",
+        "description": "ผู้สร้างคอนเทนต์ที่ใช้AI Creator ToolบนFacebook Reel",
+        "style": "creative",
+        "age_range": "22-38",
+        "personality": "innovative, energetic",
+        "image_url": "https://mock-images.google.com/generated/456789.jpg",
+        "image_prompt": "ผู้สร้างคอนเทนต์, creative style, age 22-38, innovative, energetic, suitable for มือใหม่ ไม่เก่งเทค audience"
+      }
+    ],
+    "locations": [
+      {
+        "id": 1,
+        "name": "สถานที่ทำงาน",
+        "description": "สถานที่ทำงานที่สะท้อนปัญหาและความท้าทาย",
+        "scene_purposes": ["hook", "conflict"],
+        "style": "modern office",
+        "mood": "professional, challenging",
+        "image_url": "https://mock-images.google.com/generated/567890.jpg",
+        "image_prompt": "สถานที่ทำงาน, modern office style, professional, challenging, suitable for Facebook Reel content, มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 2,
+        "name": "บ้าน/พื้นที่ส่วนตัว",
+        "description": "พื้นที่ส่วนตัวที่สะท้อนความสะดวกสบายและความเป็นส่วนตัว",
+        "scene_purposes": ["reveal", "close"],
+        "style": "cozy home",
+        "mood": "comfortable, personal",
+        "image_url": "https://mock-images.google.com/generated/678901.jpg",
+        "image_prompt": "บ้าน/พื้นที่ส่วนตัว, cozy home style, comfortable, personal, suitable for Facebook Reel content, มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 3,
+        "name": "สตูดิโอ",
+        "description": "สตูดิโอสำหรับสร้างคอนเทนต์และทำงานสร้างสรรค์",
+        "scene_purposes": ["reveal", "close"],
+        "style": "creative studio",
+        "mood": "creative, inspiring",
+        "image_url": "https://mock-images.google.com/generated/789012.jpg",
+        "image_prompt": "สตูดิโอ, creative studio style, creative, inspiring, suitable for Facebook Reel content, มือใหม่ ไม่เก่งเทค audience"
+      },
+      {
+        "id": 4,
+        "name": "พื้นที่สาธารณะ",
+        "description": "พื้นที่สาธารณะที่สะท้อนการใช้งานจริง",
+        "scene_purposes": ["hook", "conflict", "reveal"],
+        "style": "public space",
+        "mood": "realistic, relatable",
+        "image_url": "https://mock-images.google.com/generated/890123.jpg",
+        "image_prompt": "พื้นที่สาธารณะ, public space style, realistic, relatable, suitable for Facebook Reel content, มือใหม่ ไม่เก่งเทค audience"
+      }
+    ],
+    "selection": {
+      "selected_character_id": 1,
+      "selected_location_id": 1
+    }
+  },
+  "expected_storyboard": {
+    "story": {
+      "goal": "ขายคอร์สออนไลน์",
+      "product": "AI Creator Tool",
+      "audience": "มือใหม่ ไม่เก่งเทค",
+      "platform": "Facebook Reel"
+    },
+    "selected_character": {
+      "id": 1,
+      "name": "ผู้เชี่ยวชาญ",
+      "style": "professional"
+    },
+    "selected_location": {
+      "id": 1,
+      "name": "สถานที่ทำงาน",
+      "style": "modern office"
+    },
+    "scenes": [
+      {
+        "scene_id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "ตั้งคำถามว่าทำไมมือใหม่ ไม่เก่งเทคถึงยังไม่ได้เริ่มใช้AI Creator Tool",
+        "keyframes": [
+          {
+            "id": "scene_1_kf_1",
+            "timing": 1.5,
+            "description": "string",
+            "image_path": "storyboard/scene_1/keyframe_1.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "โชว์ความยุ่งยากที่มือใหม่ ไม่เก่งเทคต้องเจอเมื่อต้องเรียนรู้เอง",
+        "keyframes": [
+          {
+            "id": "scene_2_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_2_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "แนะนำAI Creator Toolที่ทำให้มือใหม่ ไม่เก่งเทคเรียนรู้ได้ง่ายและรวดเร็ว",
+        "keyframes": [
+          {
+            "id": "scene_3_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_3_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้มือใหม่ ไม่เก่งเทคสมัครเรียนAI Creator Tool",
+        "keyframes": [
+          {
+            "id": "scene_4_kf_1",
+            "timing": 1.33,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_4_kf_2",
+            "timing": 2.67,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
+

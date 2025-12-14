@@ -1,0 +1,271 @@
+{
+  "description": "Test fixture 2: เพิ่มผู้ติดตาม สำหรับผู้สร้างคอนเทนต์",
+  "story": {
+    "goal": "เพิ่มผู้ติดตาม",
+    "product": "Content Creator Pro",
+    "audience": "ผู้สร้างคอนเทนต์มือใหม่",
+    "platform": "TikTok",
+    "scenes": [
+      {
+        "id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "คุณรู้หรือไม่ว่าผู้สร้างคอนเทนต์มือใหม่ต้องการอะไรจากTikTok"
+      },
+      {
+        "id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "แสดงปัญหาในการสร้างคอนเทนต์สำหรับTikTok"
+      },
+      {
+        "id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "เปิดเผยวิธีใช้Content Creator Proเพื่อสร้างคอนเทนต์ที่โดนใจบนTikTok"
+      },
+      {
+        "id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้ติดตามและลองใช้Content Creator ProบนTikTok"
+      }
+    ]
+  },
+  "phase2_output": {
+    "story": {
+      "goal": "เพิ่มผู้ติดตาม",
+      "product": "Content Creator Pro",
+      "audience": "ผู้สร้างคอนเทนต์มือใหม่",
+      "platform": "TikTok",
+      "scenes": [
+        {
+          "id": 1,
+          "purpose": "hook",
+          "emotion": "curious",
+          "duration": 3,
+          "description": "คุณรู้หรือไม่ว่าผู้สร้างคอนเทนต์มือใหม่ต้องการอะไรจากTikTok"
+        },
+        {
+          "id": 2,
+          "purpose": "conflict",
+          "emotion": "frustrated",
+          "duration": 5,
+          "description": "แสดงปัญหาในการสร้างคอนเทนต์สำหรับTikTok"
+        },
+        {
+          "id": 3,
+          "purpose": "reveal",
+          "emotion": "relief",
+          "duration": 5,
+          "description": "เปิดเผยวิธีใช้Content Creator Proเพื่อสร้างคอนเทนต์ที่โดนใจบนTikTok"
+        },
+        {
+          "id": 4,
+          "purpose": "close",
+          "emotion": "confident",
+          "duration": 4,
+          "description": "เชิญชวนให้ติดตามและลองใช้Content Creator ProบนTikTok"
+        }
+      ]
+    },
+    "characters": [
+      {
+        "id": 1,
+        "name": "ผู้เชี่ยวชาญ",
+        "description": "ผู้เชี่ยวชาญที่เข้าใจปัญหาและแนะนำContent Creator Pro",
+        "style": "professional",
+        "age_range": "30-45",
+        "personality": "confident, knowledgeable",
+        "image_url": "https://mock-images.google.com/generated/111111.jpg",
+        "image_prompt": "ผู้เชี่ยวชาญ, professional style, age 30-45, confident, knowledgeable, suitable for ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 2,
+        "name": "ผู้ใช้จริง",
+        "description": "ตัวแทนของผู้สร้างคอนเทนต์มือใหม่ที่ประสบความสำเร็จด้วยContent Creator Pro",
+        "style": "relatable",
+        "age_range": "25-40",
+        "personality": "friendly, authentic",
+        "image_url": "https://mock-images.google.com/generated/222222.jpg",
+        "image_prompt": "ผู้ใช้จริง, relatable style, age 25-40, friendly, authentic, suitable for ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 3,
+        "name": "ผู้สร้างคอนเทนต์",
+        "description": "ผู้สร้างคอนเทนต์ที่ใช้Content Creator ProบนTikTok",
+        "style": "creative",
+        "age_range": "22-38",
+        "personality": "innovative, energetic",
+        "image_url": "https://mock-images.google.com/generated/333333.jpg",
+        "image_prompt": "ผู้สร้างคอนเทนต์, creative style, age 22-38, innovative, energetic, suitable for ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 4,
+        "name": "ผู้สอน",
+        "description": "ผู้สอนที่ช่วยให้ผู้สร้างคอนเทนต์มือใหม่เข้าใจContent Creator Pro",
+        "style": "educational",
+        "age_range": "28-42",
+        "personality": "patient, clear",
+        "image_url": "https://mock-images.google.com/generated/444444.jpg",
+        "image_prompt": "ผู้สอน, educational style, age 28-42, patient, clear, suitable for ผู้สร้างคอนเทนต์มือใหม่ audience"
+      }
+    ],
+    "locations": [
+      {
+        "id": 1,
+        "name": "สตูดิโอ",
+        "description": "สตูดิโอสำหรับสร้างคอนเทนต์และทำงานสร้างสรรค์",
+        "scene_purposes": ["reveal", "close"],
+        "style": "creative studio",
+        "mood": "creative, inspiring",
+        "image_url": "https://mock-images.google.com/generated/555555.jpg",
+        "image_prompt": "สตูดิโอ, creative studio style, creative, inspiring, suitable for TikTok content, ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 2,
+        "name": "พื้นที่ดิจิทัล",
+        "description": "พื้นหลังที่แสดงผลลัพธ์บนแพลตฟอร์มดิจิทัล",
+        "scene_purposes": ["reveal", "close"],
+        "style": "digital interface",
+        "mood": "modern, tech-forward",
+        "image_url": "https://mock-images.google.com/generated/666666.jpg",
+        "image_prompt": "พื้นที่ดิจิทัล, digital interface style, modern, tech-forward, suitable for TikTok content, ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 3,
+        "name": "บ้าน/พื้นที่ส่วนตัว",
+        "description": "พื้นที่ส่วนตัวที่สะท้อนความสะดวกสบายและความเป็นส่วนตัว",
+        "scene_purposes": ["reveal", "close"],
+        "style": "cozy home",
+        "mood": "comfortable, personal",
+        "image_url": "https://mock-images.google.com/generated/777777.jpg",
+        "image_prompt": "บ้าน/พื้นที่ส่วนตัว, cozy home style, comfortable, personal, suitable for TikTok content, ผู้สร้างคอนเทนต์มือใหม่ audience"
+      },
+      {
+        "id": 4,
+        "name": "พื้นที่สาธารณะ",
+        "description": "พื้นที่สาธารณะที่สะท้อนการใช้งานจริง",
+        "scene_purposes": ["hook", "conflict", "reveal"],
+        "style": "public space",
+        "mood": "realistic, relatable",
+        "image_url": "https://mock-images.google.com/generated/888888.jpg",
+        "image_prompt": "พื้นที่สาธารณะ, public space style, realistic, relatable, suitable for TikTok content, ผู้สร้างคอนเทนต์มือใหม่ audience"
+      }
+    ],
+    "selection": {
+      "selected_character_id": 3,
+      "selected_location_id": 1
+    }
+  },
+  "expected_storyboard": {
+    "story": {
+      "goal": "เพิ่มผู้ติดตาม",
+      "product": "Content Creator Pro",
+      "audience": "ผู้สร้างคอนเทนต์มือใหม่",
+      "platform": "TikTok"
+    },
+    "selected_character": {
+      "id": 3,
+      "name": "ผู้สร้างคอนเทนต์",
+      "style": "creative"
+    },
+    "selected_location": {
+      "id": 1,
+      "name": "สตูดิโอ",
+      "style": "creative studio"
+    },
+    "scenes": [
+      {
+        "scene_id": 1,
+        "purpose": "hook",
+        "emotion": "curious",
+        "duration": 3,
+        "description": "คุณรู้หรือไม่ว่าผู้สร้างคอนเทนต์มือใหม่ต้องการอะไรจากTikTok",
+        "keyframes": [
+          {
+            "id": "scene_1_kf_1",
+            "timing": 1.5,
+            "description": "string",
+            "image_path": "storyboard/scene_1/keyframe_1.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 2,
+        "purpose": "conflict",
+        "emotion": "frustrated",
+        "duration": 5,
+        "description": "แสดงปัญหาในการสร้างคอนเทนต์สำหรับTikTok",
+        "keyframes": [
+          {
+            "id": "scene_2_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_2_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_2/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 3,
+        "purpose": "reveal",
+        "emotion": "relief",
+        "duration": 5,
+        "description": "เปิดเผยวิธีใช้Content Creator Proเพื่อสร้างคอนเทนต์ที่โดนใจบนTikTok",
+        "keyframes": [
+          {
+            "id": "scene_3_kf_1",
+            "timing": 1.67,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_3_kf_2",
+            "timing": 3.33,
+            "description": "string",
+            "image_path": "storyboard/scene_3/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      },
+      {
+        "scene_id": 4,
+        "purpose": "close",
+        "emotion": "confident",
+        "duration": 4,
+        "description": "เชิญชวนให้ติดตามและลองใช้Content Creator ProบนTikTok",
+        "keyframes": [
+          {
+            "id": "scene_4_kf_1",
+            "timing": 1.33,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_1.jpg",
+            "image_prompt": "string"
+          },
+          {
+            "id": "scene_4_kf_2",
+            "timing": 2.67,
+            "description": "string",
+            "image_path": "storyboard/scene_4/keyframe_2.jpg",
+            "image_prompt": "string"
+          }
+        ]
+      }
+    ]
+  }
+}
+
