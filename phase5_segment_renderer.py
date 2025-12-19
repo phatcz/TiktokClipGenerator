@@ -24,6 +24,11 @@ import json
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 import uuid
+import os
+
+# Import adapter layer
+from adapters import get_video_provider
+from adapters.interfaces import VideoGenerationRequest
 
 
 # ==================== Segment Schema ====================
@@ -164,18 +169,16 @@ def build_render_prompt(segment: Dict[str, Any], story_context: Optional[Dict[st
     return full_prompt
 
 
-# ==================== Mock Google Video Gen API ====================
+# ==================== Video Generation via Adapter ====================
 
-def mock_google_video_generation(
+def generate_video_segment(
     prompt: str,
     start_keyframe_path: Optional[str] = None,
     end_keyframe_path: Optional[str] = None,
     duration: float = 8.0
 ) -> Dict[str, Any]:
     """
-    Mock API สำหรับ Google Video Generation
-    
-    ในอนาคตจะแทนที่ด้วย Google Video Gen API จริง
+    สร้าง video segment ด้วย adapter layer (default: mock provider)
     
     Args:
         prompt: Render prompt สำหรับ video generation
@@ -189,35 +192,61 @@ def mock_google_video_generation(
         - video_path: str (path ของ generated video)
         - duration: float
         - metadata: dict (additional info)
+        
+    Note:
+        - ใช้ adapter layer สำหรับ provider abstraction
+        - Default provider: mock (works offline)
+        - สามารถเปลี่ยน provider ได้ผ่าน VIDEO_PROVIDER environment variable
     """
-    # Mock: สร้าง video path
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    unique_id = str(uuid.uuid4())[:8]
-    video_id = hash(prompt) % 1000000
+    # Get video provider from adapter layer (default: mock)
+    video_provider = get_video_provider()
     
-    video_path = f"output/segments/segment_{video_id}_{timestamp}_{unique_id}.mp4"
+    # Create video generation request
+    request = VideoGenerationRequest(
+        prompt=prompt,
+        duration=duration,
+        start_keyframe_path=start_keyframe_path,
+        end_keyframe_path=end_keyframe_path,
+        resolution="720p",
+        fps=30,
+        motion_type="smooth",
+        camera_movement="none"
+    )
     
-    # Mock: simulate API call
-    # ใน production จะต้อง:
-    # 1. เรียก Google Video Gen API
-    # 2. ส่ง prompt, keyframes, parameters
-    # 3. รอ response
-    # 4. ดาวน์โหลด video file
-    
-    result = {
-        "success": True,
-        "video_path": video_path,
-        "duration": duration,
-        "metadata": {
-            "prompt": prompt,
-            "start_keyframe": start_keyframe_path,
-            "end_keyframe": end_keyframe_path,
-            "generated_at": timestamp,
-            "api_version": "mock_v1.0"
+    # Generate video using adapter
+    try:
+        result = video_provider.generate_video_segment(request)
+        
+        if result.success:
+            return {
+                "success": True,
+                "video_path": result.video_path,
+                "duration": result.duration,
+                "metadata": result.metadata or {}
+            }
+        else:
+            # Provider returned error
+            return {
+                "success": False,
+                "video_path": None,
+                "duration": duration,
+                "metadata": {
+                    "error": result.error,
+                    "prompt": prompt
+                }
+            }
+            
+    except Exception as e:
+        # Handle any exceptions from provider
+        return {
+            "success": False,
+            "video_path": None,
+            "duration": duration,
+            "metadata": {
+                "error": str(e),
+                "prompt": prompt
+            }
         }
-    }
-    
-    return result
 
 
 # ==================== Segment Rendering ====================
@@ -358,9 +387,9 @@ def render_segment(
     start_keyframe_path = start_keyframe.get("image_path")
     end_keyframe_path = end_keyframe.get("image_path")
     
-    # Call mock Google Video Gen API
+    # Call video provider via adapter
     try:
-        api_result = mock_google_video_generation(
+        api_result = generate_video_segment(
             prompt=prompt,
             start_keyframe_path=start_keyframe_path,
             end_keyframe_path=end_keyframe_path,

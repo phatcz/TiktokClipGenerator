@@ -1,6 +1,6 @@
 # CURRENT_STATE — TikTok Clip Factory
 
-**Last Updated:** 2024-12-14  
+**Last Updated:** 2024-12-19  
 **Status:** Operational Assessment
 
 ---
@@ -9,10 +9,10 @@
 
 ### Phase Modules (LOCKED - Do Not Modify)
 - **Phase 1** (`story_engine.py`): Story generation with 4-scene structure (hook, conflict, reveal, close). Rule-based, no API dependencies. Schema locked.
-- **Phase 2** (`phase2_generator.py`): Character and location generation with mock image API. Schema locked.
+- **Phase 2** (`phase2_generator.py`): Character and location generation using adapter layer (default: mock image provider). **EP_S05 COMPLETE**: Direct API calls replaced with adapter-based calls. Schema locked.
 - **Phase 3** (`phase3_storyboard.py`): Storyboard builder mapping scenes to keyframes. Schema locked.
 - **Phase 4** (`phase4_video_plan.py`): Video plan generator with segment breakdown. Contract with Phase 5 locked (start_keyframe/end_keyframe objects required).
-- **Phase 5** (`phase5_segment_renderer.py`): Segment renderer with fixed 8.0-second duration. Mock video API. Schema locked.
+- **Phase 5** (`phase5_segment_renderer.py`): Segment renderer with fixed 8.0-second duration using adapter layer (default: mock video provider). **EP_S05 COMPLETE**: Direct API calls replaced with adapter-based calls. Schema locked.
 - **Phase 5.5** (`phase5_assembler.py`): Video assembler with retry logic. Mock stitching. Schema locked.
 
 ### Validation Layer
@@ -24,10 +24,18 @@
 ### Testing
 - **End-to-End Test** (`tests/test_end_to_end.py`): Passing. Covers full pipeline with schema validation.
 
+### Adapter Layer
+- **Adapter Interfaces** (`adapters/interfaces.py`): Abstract base classes for ImageProvider, VideoProvider, AudioProvider. Defines contracts for all providers.
+- **Mock Providers** (`adapters/mock_providers.py`): Offline mock implementations of all provider interfaces. Default providers (work without API keys).
+- **Adapter Factory** (`adapters/__init__.py`): Factory functions `get_image_provider()`, `get_video_provider()`, `get_audio_provider()`. Default: mock providers.
+- **EP_S04 COMPLETE**: Adapter layer created and documented.
+- **EP_S05 COMPLETE**: Adapter layer integrated into Phase 2 and Phase 5. All provider calls now go through adapters.
+
 ### Documentation
 - **MVP_LOCK.md**: Defines locked scope and constraints.
 - **MVP_GUARDRAILS.md**: Defines what can/cannot be modified.
 - **STATUS_SUMMARY.md**: Current status tracking (Thai language).
+- **EXECUTION_ORDER_EP_S05.md**: Documentation of adapter integration into core pipeline.
 
 ---
 

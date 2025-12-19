@@ -7,26 +7,14 @@ import base64
 from datetime import datetime
 import uuid
 
-
-def mock_google_image_generation(prompt: str) -> str:
-    """
-    Mock API สำหรับ Google Image Generation
-    ใช้เป็น fallback เมื่อ Vertex AI API ล้มเหลว
-    
-    Args:
-        prompt: คำอธิบายภาพที่ต้องการสร้าง
-        
-    Returns:
-        URL ของภาพ (mock)
-    """
-    # Mock: สร้าง URL จำลอง
-    image_id = hash(prompt) % 1000000
-    return f"https://mock-images.google.com/generated/{image_id}.jpg"
+# Import adapter layer
+from adapters import get_image_provider
+from adapters.interfaces import ImageGenerationRequest
 
 
-def generate_image_with_vertex(prompt: str) -> str:
+def generate_image(prompt: str) -> str:
     """
-    สร้างภาพด้วย Google Vertex AI Imagen API
+    สร้างภาพด้วย adapter layer (default: mock provider)
     
     Args:
         prompt: คำอธิบายภาพที่ต้องการสร้าง
@@ -35,131 +23,48 @@ def generate_image_with_vertex(prompt: str) -> str:
         URL หรือ path ของภาพที่สร้างได้
         
     Note:
-        - ใช้ environment variables: VERTEX_API_KEY, VERTEX_PROJECT_ID, VERTEX_LOCATION
-        - Fallback เป็น mock ถ้า API ล้มเหลว
+        - ใช้ adapter layer สำหรับ provider abstraction
+        - Default provider: mock (works offline)
+        - สามารถเปลี่ยน provider ได้ผ่าน IMAGE_PROVIDER environment variable
     """
-    # อ่าน environment variables
-    api_key = os.getenv("VERTEX_API_KEY")
-    project_id = os.getenv("VERTEX_PROJECT_ID")
-    location = os.getenv("VERTEX_LOCATION", "us-central1")
+    # Get image provider from adapter layer (default: mock)
+    image_provider = get_image_provider()
     
-    # ตรวจสอบว่ามี API key หรือไม่
-    if not api_key or not project_id:
-        print(f"[Phase 2] Warning: VERTEX_API_KEY or VERTEX_PROJECT_ID not set, using mock")
-        return mock_google_image_generation(prompt)
+    # Create image generation request
+    request = ImageGenerationRequest(
+        prompt=prompt,
+        width=1024,
+        height=1024,
+        aspect_ratio="1:1",
+        quality="standard",
+        num_images=1
+    )
     
+    # Generate image using adapter
     try:
-        # Vertex AI Imagen API endpoint
-        # Model name format: imagen-3.0-generate-001 or imagen-4.0-generate-001
-        # Try imagen-3.0 first (more stable)
-        model_name = "imagen-3.0-generate-001"
-        endpoint = f"https://{location}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{location}/publishers/google/models/{model_name}:predict"
+        result = image_provider.generate_image(request)
         
-        # Request payload for Vertex AI Imagen
-        # Format according to Vertex AI Imagen API specification
-        payload = {
-            "instances": [
-                {
-                    "prompt": prompt
-                }
-            ],
-            "parameters": {
-                "sampleCount": 1,
-                "aspectRatio": "1:1",
-                "safetyFilterLevel": "block_some",
-                "personGeneration": "allow_all"
-            }
-        }
-        
-        # Vertex AI uses OAuth2 Bearer token, not API key directly
-        # API key format provided might need to be used with OAuth2 flow
-        # Try Bearer token first (most common for Vertex AI)
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-        
-        # เรียก API
-        response = requests.post(
-            endpoint,
-            json=payload,
-            headers=headers,
-            timeout=60  # 60 seconds timeout
-        )
-        
-        # ถ้า Bearer token ไม่ได้ผล ลองใช้ API key as query parameter
-        if response.status_code == 401 or response.status_code == 403:
-            endpoint_with_key = f"{endpoint}?key={api_key}"
-            headers = {
-                "Content-Type": "application/json"
-            }
-            response = requests.post(
-                endpoint_with_key,
-                json=payload,
-                headers=headers,
-                timeout=60
-            )
-        
-        # ตรวจสอบ response
-        if response.status_code == 200:
-            result = response.json()
-            
-            # Extract image bytes base64 จาก response
-            if "predictions" in result and len(result["predictions"]) > 0:
-                prediction = result["predictions"][0]
-                
-                # Vertex AI Imagen returns base64 encoded image
-                if "bytesBase64Encoded" in prediction:
-                    # Decode base64 image
-                    image_bytes = base64.b64decode(prediction["bytesBase64Encoded"])
-                    
-                    # สร้าง output directory ถ้ายังไม่มี
-                    output_dir = "output/images"
-                    os.makedirs(output_dir, exist_ok=True)
-                    
-                    # สร้าง unique filename
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    unique_id = str(uuid.uuid4())[:8]
-                    filename = f"vertex_image_{timestamp}_{unique_id}.jpg"
-                    filepath = os.path.join(output_dir, filename)
-                    
-                    # Save image
-                    with open(filepath, "wb") as f:
-                        f.write(image_bytes)
-                    
-                    print(f"[Phase 2] Successfully generated image with Vertex AI: {filepath}")
-                    return filepath
-                elif "gcsUri" in prediction:
-                    # ถ้า API return GCS URI
-                    print(f"[Phase 2] Successfully generated image with Vertex AI (GCS): {prediction['gcsUri']}")
-                    return prediction["gcsUri"]
-            
-            # ถ้า response format ไม่ตรงที่คาดหวัง
-            print(f"[Phase 2] Warning: Unexpected response format from Vertex AI, using mock")
-            return mock_google_image_generation(prompt)
+        if result.success:
+            # Prefer image_path over image_url (if available)
+            if result.image_path:
+                return result.image_path
+            elif result.image_url:
+                return result.image_url
+            else:
+                # Fallback: create mock URL
+                image_id = abs(hash(prompt)) % 1000000
+                return f"https://mock-images.example.com/generated/{image_id}.jpg"
         else:
-            # API error - print error message for debugging (but not API key)
-            error_msg = ""
-            try:
-                error_data = response.json()
-                if "error" in error_data:
-                    error_msg = str(error_data["error"]).replace(api_key, "***REDACTED***")
-                print(f"[Phase 2] Warning: Vertex AI API error (status {response.status_code}): {error_msg}")
-            except:
-                print(f"[Phase 2] Warning: Vertex AI API error (status {response.status_code}), using mock")
-            return mock_google_image_generation(prompt)
+            # Provider returned error, create fallback mock URL
+            print(f"[Phase 2] Warning: Image generation failed: {result.error}, using fallback")
+            image_id = abs(hash(prompt)) % 1000000
+            return f"https://mock-images.example.com/generated/{image_id}.jpg"
             
-    except requests.exceptions.Timeout:
-        print(f"[Phase 2] Warning: Vertex AI API timeout, using mock")
-        return mock_google_image_generation(prompt)
-    except requests.exceptions.RequestException as e:
-        print(f"[Phase 2] Warning: Vertex AI API request failed, using mock")
-        # ไม่ print exception details ที่อาจมี sensitive info
-        return mock_google_image_generation(prompt)
     except Exception as e:
-        print(f"[Phase 2] Warning: Unexpected error calling Vertex AI, using mock")
-        # ไม่ print exception details
-        return mock_google_image_generation(prompt)
+        # Handle any exceptions from provider
+        print(f"[Phase 2] Warning: Image generation exception: {str(e)}, using fallback")
+        image_id = abs(hash(prompt)) % 1000000
+        return f"https://mock-images.example.com/generated/{image_id}.jpg"
 
 
 def generate_character_candidates(story: Dict[str, Any], num_candidates: int = 4) -> List[Dict[str, Any]]:
@@ -234,7 +139,7 @@ def generate_character_candidates(story: Dict[str, Any], num_candidates: int = 4
             "style": template["style"],
             "age_range": template["age_range"],
             "personality": template["personality"],
-            "image_url": generate_image_with_vertex(image_prompt),
+            "image_url": generate_image(image_prompt),
             "image_prompt": image_prompt
         }
         characters.append(character)
@@ -315,7 +220,7 @@ def generate_location_candidates(story: Dict[str, Any], num_candidates: int = 4)
             "scene_purposes": template["scene_purposes"],
             "style": template["style"],
             "mood": template["mood"],
-            "image_url": generate_image_with_vertex(image_prompt),
+            "image_url": generate_image(image_prompt),
             "image_prompt": image_prompt
         }
         locations.append(location)
