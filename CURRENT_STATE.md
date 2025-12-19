@@ -9,7 +9,7 @@
 
 ### Phase Modules (LOCKED - Do Not Modify)
 - **Phase 1** (`story_engine.py`): Story generation with 4-scene structure (hook, conflict, reveal, close). Rule-based, no API dependencies. Schema locked.
-- **Phase 2** (`phase2_generator.py`): Character and location generation using adapter layer (default: mock image provider). **EP_S05 COMPLETE**: Direct API calls replaced with adapter-based calls. Schema locked.
+- **Phase 2** (`phase2_generator.py`): Character and location generation using adapter layer (default: mock image provider). **EP_S05 COMPLETE**: Direct API calls replaced with adapter-based calls. **EP_S06 COMPLETE**: Real image provider (Google) available via `IMAGE_PROVIDER=google`. Schema locked.
 - **Phase 3** (`phase3_storyboard.py`): Storyboard builder mapping scenes to keyframes. Schema locked.
 - **Phase 4** (`phase4_video_plan.py`): Video plan generator with segment breakdown. Contract with Phase 5 locked (start_keyframe/end_keyframe objects required).
 - **Phase 5** (`phase5_segment_renderer.py`): Segment renderer with fixed 8.0-second duration using adapter layer (default: mock video provider). **EP_S05 COMPLETE**: Direct API calls replaced with adapter-based calls. Schema locked.
@@ -27,15 +27,18 @@
 ### Adapter Layer
 - **Adapter Interfaces** (`adapters/interfaces.py`): Abstract base classes for ImageProvider, VideoProvider, AudioProvider. Defines contracts for all providers.
 - **Mock Providers** (`adapters/mock_providers.py`): Offline mock implementations of all provider interfaces. Default providers (work without API keys).
-- **Adapter Factory** (`adapters/__init__.py`): Factory functions `get_image_provider()`, `get_video_provider()`, `get_audio_provider()`. Default: mock providers.
+- **Real Providers** (`adapters/google_providers.py`): Google Vertex AI Imagen implementation. **EP_S06 COMPLETE**: First real provider integrated with automatic fallback to mock.
+- **Adapter Factory** (`adapters/__init__.py`): Factory functions `get_image_provider()`, `get_video_provider()`, `get_audio_provider()`. Default: mock providers. Supports `IMAGE_PROVIDER=google` for real image generation.
 - **EP_S04 COMPLETE**: Adapter layer created and documented.
 - **EP_S05 COMPLETE**: Adapter layer integrated into Phase 2 and Phase 5. All provider calls now go through adapters.
+- **EP_S06 COMPLETE**: Real image provider (Google Vertex AI) enabled with automatic fallback to mock. Default behavior unchanged (mock when no env vars set).
 
 ### Documentation
 - **MVP_LOCK.md**: Defines locked scope and constraints.
 - **MVP_GUARDRAILS.md**: Defines what can/cannot be modified.
 - **STATUS_SUMMARY.md**: Current status tracking (Thai language).
 - **EXECUTION_ORDER_EP_S05.md**: Documentation of adapter integration into core pipeline.
+- **EXECUTION_ORDER_EP_S06.md**: Documentation of real image provider integration (Google Vertex AI).
 
 ---
 
