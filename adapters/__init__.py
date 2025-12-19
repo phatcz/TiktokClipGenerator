@@ -146,22 +146,64 @@ def _try_provider_safe(name: str) -> Tuple[Optional[ImageProvider], Optional[str
 
 def get_video_provider() -> VideoProvider:
     """
-    Get the configured video provider.
+    Get the configured video provider with robust fallback chain.
     
     Returns:
-        VideoProvider instance (default: MockVideoProvider)
+        VideoProvider instance (guaranteed to return MockVideoProvider if all others fail)
     
     Configuration:
         Set VIDEO_PROVIDER environment variable:
         - "mock" (default): Offline mock provider
-        - Future: "google", "veo", "runway", "pika", etc.
+        - "veo": Google Vertex AI Veo (requires VERTEX_API_KEY, VERTEX_PROJECT_ID)
+        - Unknown values: Falls back to mock
+    
+    Fallback Behavior:
+        If real provider fails to initialize (missing credentials, etc.),
+        automatically falls back to MockVideoProvider.
     """
     if VIDEO_PROVIDER_TYPE == "mock":
         return MockVideoProvider()
+    elif VIDEO_PROVIDER_TYPE == "veo":
+        # Explicit Veo provider with fallback
+        provider, error = _try_video_provider_safe("veo")
+        if provider is not None:
+            return provider
+        else:
+            warnings.warn(
+                f"Failed to initialize VeoVideoProvider: {error}. Falling back to mock.",
+                UserWarning
+            )
+            return MockVideoProvider()
     else:
-        # Future: Add real providers here
-        # For now, fallback to mock if unknown provider
+        # Unknown provider type - fallback to mock
+        warnings.warn(
+            f"Unknown VIDEO_PROVIDER value: '{VIDEO_PROVIDER_TYPE}'. Falling back to mock.",
+            UserWarning
+        )
         return MockVideoProvider()
+
+
+def _try_video_provider_safe(name: str) -> Tuple[Optional[VideoProvider], Optional[str]]:
+    """
+    Safely try to initialize a video provider, catching all exceptions.
+    
+    Args:
+        name: Provider name
+        
+    Returns:
+        Tuple of (provider_instance, error_message)
+    """
+    if name == "veo":
+        try:
+            from .google_providers import VeoVideoProvider
+            provider = VeoVideoProvider()
+            return provider, None
+        except ImportError as e:
+            return None, f"Failed to import VeoVideoProvider: {e}"
+        except Exception as e:
+            return None, str(e)
+    else:
+        return None, f"Unknown video provider: {name}"
 
 
 def get_audio_provider() -> AudioProvider:
