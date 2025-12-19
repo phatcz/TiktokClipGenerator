@@ -35,6 +35,8 @@
 - **EP_S05 COMPLETE**: Adapter layer integrated into Phase 2 and Phase 5. All provider calls now go through adapters.
 - **EP_S06 COMPLETE**: Real image provider (Google Vertex AI) enabled with automatic fallback to mock. Default behavior unchanged (mock when no env vars set).
 - **EP_S07 COMPLETE**: Multi-provider image strategy with robust fallback chain. Supports explicit provider selection and auto strategy. All fallback chains guaranteed to end in mock.
+- **EP_S08 COMPLETE**: Real video provider (Google Vertex AI Veo) enabled with automatic fallback to mock. Default behavior unchanged (mock when no env vars set).
+- **EP_S09 COMPLETE**: Cloud Shell import error fixed with minimal package setup (`setup.py`). Project can now run in Cloud Shell with `pip install -e .`. No code changes required.
 
 ### Documentation
 - **MVP_LOCK.md**: Defines locked scope and constraints.
@@ -44,6 +46,7 @@
 - **EXECUTION_ORDER_EP_S06.md**: Documentation of real image provider integration (Google Vertex AI).
 - **EXECUTION_ORDER_EP_S07.md**: Documentation of multi-provider image strategy with fallback chain.
 - **EXECUTION_ORDER_EP_S08.md**: Documentation of real video provider integration (Google Vertex AI Veo).
+- **EXECUTION_ORDER_EP_S09.md**: Documentation of Cloud Shell setup and import error fix.
 
 ---
 
