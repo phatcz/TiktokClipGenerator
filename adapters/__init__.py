@@ -7,70 +7,114 @@ The core pipeline (Phase 1-5.5) uses these adapters instead of calling providers
 Architecture:
 - Interfaces define the contract (interfaces.py)
 - Mock providers provide offline functionality (mock_providers.py)
+- Real providers implement interfaces (google_providers.py, stub_providers.py)
+- Strategy module handles multi-provider selection and fallback (strategy.py)
 - Factory functions select providers based on configuration (get_*_provider)
-- Real providers will be added in future EPs without touching core pipeline
 
 Usage:
     from adapters import get_image_provider, get_video_provider, get_audio_provider
     
-    image_provider = get_image_provider()
-    image_url = image_provider.generate_image(prompt="A cat")
+    # Explicit provider
+    image_provider = get_image_provider()  # Uses IMAGE_PROVIDER env var
     
-    video_provider = get_video_provider()
-    result = video_provider.generate_video_segment(
-        prompt="...",
-        duration=8.0
-    )
+    # Auto strategy (tries providers in priority order)
+    # Set IMAGE_PROVIDER=auto
+    image_provider = get_image_provider()
 """
 
-from typing import Optional
+from typing import Optional, Tuple
 import os
 import warnings
 
 from .interfaces import ImageProvider, VideoProvider, AudioProvider
 from .mock_providers import MockImageProvider, MockVideoProvider, MockAudioProvider
+from .strategy import (
+    register_provider_factory,
+    get_provider_with_fallback,
+    get_auto_provider,
+)
 
 # Provider selection via environment variables
 # Default: "mock" (works offline)
-# Future: "google", "veo", "openai", etc.
+# Options: "mock", "google", "stub", "auto"
+#   - "mock": Use mock provider (default, works offline)
+#   - "google": Use Google Vertex AI Imagen (requires credentials)
+#   - "stub": Use stub provider (placeholder, always fails gracefully)
+#   - "auto": Try providers in priority order (google → stub → mock)
 IMAGE_PROVIDER_TYPE = os.getenv("IMAGE_PROVIDER", "mock").lower()
 VIDEO_PROVIDER_TYPE = os.getenv("VIDEO_PROVIDER", "mock").lower()
 AUDIO_PROVIDER_TYPE = os.getenv("AUDIO_PROVIDER", "mock").lower()
 
+# Register provider factories
+def _factory_mock() -> ImageProvider:
+    """Factory for MockImageProvider."""
+    return MockImageProvider()
+
+def _factory_google() -> ImageProvider:
+    """Factory for GoogleImageProvider."""
+    from .google_providers import GoogleImageProvider
+    return GoogleImageProvider()
+
+def _factory_stub() -> ImageProvider:
+    """Factory for StubImageProvider."""
+    from .stub_providers import StubImageProvider
+    return StubImageProvider()
+
+# Register all provider factories
+register_provider_factory("mock", _factory_mock)
+register_provider_factory("google", _factory_google)
+register_provider_factory("stub", _factory_stub)
+
 
 def get_image_provider() -> ImageProvider:
     """
-    Get the configured image provider.
+    Get the configured image provider with robust fallback chain.
     
     Returns:
-        ImageProvider instance (default: MockImageProvider)
+        ImageProvider instance (guaranteed to return MockImageProvider if all others fail)
     
     Configuration:
         Set IMAGE_PROVIDER environment variable:
         - "mock" (default): Offline mock provider
         - "google": Google Vertex AI Imagen (requires VERTEX_API_KEY, VERTEX_PROJECT_ID)
+        - "stub": Stub provider (placeholder, always fails gracefully)
+        - "auto": Try providers in priority order (google → stub → mock)
         - Unknown values: Falls back to mock
     
     Fallback Behavior:
-        If real provider fails to initialize (missing credentials, etc.),
-        automatically falls back to MockImageProvider.
+        - Explicit provider: If initialization fails, falls back to mock
+        - Auto strategy: Tries providers in priority order until one succeeds
+        - All strategies: Always end in MockImageProvider (guaranteed)
+    
+    Provider Priority (for "auto" strategy):
+        1. google (Google Vertex AI Imagen)
+        2. stub (Stub provider - placeholder)
+        3. mock (Final fallback - always succeeds)
     """
     if IMAGE_PROVIDER_TYPE == "mock":
         return MockImageProvider()
+    elif IMAGE_PROVIDER_TYPE == "auto":
+        # Auto strategy: try providers in priority order
+        return get_auto_provider()
     elif IMAGE_PROVIDER_TYPE == "google":
-        try:
-            from .google_providers import GoogleImageProvider
-            return GoogleImageProvider()
-        except ImportError as e:
+        # Explicit Google provider with fallback
+        provider, error = _try_provider_safe("google")
+        if provider is not None:
+            return provider
+        else:
             warnings.warn(
-                f"Failed to import GoogleImageProvider: {e}. Falling back to mock.",
+                f"Failed to initialize GoogleImageProvider: {error}. Falling back to mock.",
                 UserWarning
             )
             return MockImageProvider()
-        except Exception as e:
-            # Catch ProviderAuthenticationError or any other initialization errors
+    elif IMAGE_PROVIDER_TYPE == "stub":
+        # Explicit Stub provider with fallback
+        provider, error = _try_provider_safe("stub")
+        if provider is not None:
+            return provider
+        else:
             warnings.warn(
-                f"Failed to initialize GoogleImageProvider: {e}. Falling back to mock.",
+                f"Failed to initialize StubImageProvider: {error}. Falling back to mock.",
                 UserWarning
             )
             return MockImageProvider()
@@ -81,6 +125,23 @@ def get_image_provider() -> ImageProvider:
             UserWarning
         )
         return MockImageProvider()
+
+
+def _try_provider_safe(name: str) -> Tuple[Optional[ImageProvider], Optional[str]]:
+    """
+    Safely try to initialize a provider, catching all exceptions.
+    
+    Args:
+        name: Provider name
+        
+    Returns:
+        Tuple of (provider_instance, error_message)
+    """
+    from .strategy import try_provider
+    try:
+        return try_provider(name)
+    except Exception as e:
+        return None, str(e)
 
 
 def get_video_provider() -> VideoProvider:

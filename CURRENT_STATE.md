@@ -28,10 +28,13 @@
 - **Adapter Interfaces** (`adapters/interfaces.py`): Abstract base classes for ImageProvider, VideoProvider, AudioProvider. Defines contracts for all providers.
 - **Mock Providers** (`adapters/mock_providers.py`): Offline mock implementations of all provider interfaces. Default providers (work without API keys).
 - **Real Providers** (`adapters/google_providers.py`): Google Vertex AI Imagen implementation. **EP_S06 COMPLETE**: First real provider integrated with automatic fallback to mock.
-- **Adapter Factory** (`adapters/__init__.py`): Factory functions `get_image_provider()`, `get_video_provider()`, `get_audio_provider()`. Default: mock providers. Supports `IMAGE_PROVIDER=google` for real image generation.
+- **Stub Providers** (`adapters/stub_providers.py`): Placeholder provider for testing fallback chains. **EP_S07 COMPLETE**: Added for multi-provider strategy testing.
+- **Strategy Module** (`adapters/strategy.py`): Provider selection strategy and fallback chain logic. **EP_S07 COMPLETE**: Implements auto strategy and provider priority order.
+- **Adapter Factory** (`adapters/__init__.py`): Factory functions `get_image_provider()`, `get_video_provider()`, `get_audio_provider()`. Default: mock providers. Supports `IMAGE_PROVIDER=google|stub|auto` for image generation. **EP_S07 COMPLETE**: Extended with multi-provider support and auto strategy.
 - **EP_S04 COMPLETE**: Adapter layer created and documented.
 - **EP_S05 COMPLETE**: Adapter layer integrated into Phase 2 and Phase 5. All provider calls now go through adapters.
 - **EP_S06 COMPLETE**: Real image provider (Google Vertex AI) enabled with automatic fallback to mock. Default behavior unchanged (mock when no env vars set).
+- **EP_S07 COMPLETE**: Multi-provider image strategy with robust fallback chain. Supports explicit provider selection and auto strategy. All fallback chains guaranteed to end in mock.
 
 ### Documentation
 - **MVP_LOCK.md**: Defines locked scope and constraints.
@@ -39,6 +42,7 @@
 - **STATUS_SUMMARY.md**: Current status tracking (Thai language).
 - **EXECUTION_ORDER_EP_S05.md**: Documentation of adapter integration into core pipeline.
 - **EXECUTION_ORDER_EP_S06.md**: Documentation of real image provider integration (Google Vertex AI).
+- **EXECUTION_ORDER_EP_S07.md**: Documentation of multi-provider image strategy with fallback chain.
 
 ---
 
