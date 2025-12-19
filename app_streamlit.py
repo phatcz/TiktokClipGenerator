@@ -14,6 +14,8 @@ from phase3_storyboard import build_storyboard_from_phase2
 from phase4_video_plan import generate_video_plan
 from phase5_segment_renderer import render_segments_from_video_plan
 from phase5_assembler import assemble_video
+from end_to_end_run import run_end_to_end
+from validators.schema_validators import ValidationError, PhaseOrderError
 
 # Page config
 st.set_page_config(
@@ -155,6 +157,12 @@ if 'selected_location_id' not in st.session_state:
     st.session_state.selected_location_id = 1
 if 'selected_phase' not in st.session_state:
     st.session_state.selected_phase = "Phase 1: Story Input"
+if 'end_to_end_running' not in st.session_state:
+    st.session_state.end_to_end_running = False
+if 'end_to_end_error' not in st.session_state:
+    st.session_state.end_to_end_error = None
+if 'end_to_end_error_phase' not in st.session_state:
+    st.session_state.end_to_end_error_phase = None
 
 # ==================== Sidebar ====================
 st.sidebar.markdown('<h1 style="color: #64ffda; font-size: 1.8rem; margin-bottom: 0;">🎬 CREATOR TOOL</h1>', unsafe_allow_html=True)
@@ -202,13 +210,119 @@ num_locations = st.sidebar.number_input("Location Candidates", min_value=1, max_
 
 st.sidebar.markdown("---")
 if st.sidebar.button("🗑️ Reset Project", use_container_width=True, help="Clear all progress and start fresh"):
-    for key in ['phase1_story', 'phase2_output', 'phase3_storyboard', 'phase4_video_plan', 'phase5_render_result', 'phase5_5_assemble_result']:
+    for key in ['phase1_story', 'phase2_output', 'phase3_storyboard', 'phase4_video_plan', 'phase5_render_result', 'phase5_5_assemble_result', 'end_to_end_running', 'end_to_end_error', 'end_to_end_error_phase']:
         st.session_state[key] = None
     st.rerun()
 
 # ==================== Main Area ====================
 st.markdown('<h1 class="main-title">CREATOR TOOL</h1>', unsafe_allow_html=True)
 st.markdown('<p style="color: #888; font-size: 1.1rem; margin-bottom: 2rem;">Professional Video Generation Pipeline</p>', unsafe_allow_html=True)
+
+# ==================== End-to-End Run Section ====================
+st.markdown("---")
+st.markdown('<h2 class="phase-title">🚀 END-TO-END PIPELINE RUN</h2>', unsafe_allow_html=True)
+st.markdown("**Run the complete pipeline from Phase 1 to Phase 5.5 in one click.**")
+
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    run_disabled = st.session_state.end_to_end_running or (
+        st.session_state.phase1_story is not None and 
+        st.session_state.phase5_5_assemble_result is not None
+    )
+    
+    if st.button(
+        "🎬 Run Full Pipeline (Phase 1 → 5.5)", 
+        type="primary", 
+        use_container_width=True,
+        disabled=run_disabled,
+        help="Run all phases sequentially. This will overwrite existing results."
+    ):
+        # Reset previous results and errors
+        for key in ['phase1_story', 'phase2_output', 'phase3_storyboard', 'phase4_video_plan', 'phase5_render_result', 'phase5_5_assemble_result']:
+            st.session_state[key] = None
+        st.session_state.end_to_end_error = None
+        st.session_state.end_to_end_error_phase = None
+        st.session_state.end_to_end_running = True
+        
+        # Run end-to-end pipeline
+        with st.spinner("Running full pipeline... This may take a moment."):
+            try:
+                # Capture stdout to prevent I/O issues in Streamlit
+                import io
+                import contextlib
+                
+                f = io.StringIO()
+                with contextlib.redirect_stdout(f):
+                    result = run_end_to_end(
+                        goal=goal,
+                        product=product,
+                        audience=audience,
+                        platform=platform,
+                        selected_character_id=st.session_state.selected_character_id,
+                        selected_location_id=st.session_state.selected_location_id,
+                        num_characters=num_characters,
+                        num_locations=num_locations,
+                        output_path=None
+                    )
+                
+                # Store results in session state
+                st.session_state.phase1_story = result['phase1_story']
+                st.session_state.phase2_output = result['phase2_output']
+                st.session_state.phase3_storyboard = result['phase3_storyboard']
+                st.session_state.phase4_video_plan = result['phase4_video_plan']
+                st.session_state.phase5_render_result = result['phase5_render_result']
+                st.session_state.phase5_5_assemble_result = result['phase5_5_assemble_result']
+                st.session_state.end_to_end_running = False
+                
+                st.success("✅ End-to-end pipeline completed successfully!")
+                st.rerun()
+                
+            except ValidationError as e:
+                st.session_state.end_to_end_running = False
+                st.session_state.end_to_end_error = str(e)
+                st.session_state.end_to_end_error_phase = getattr(e, 'phase', 'Unknown')
+                st.error(f"❌ Validation Error in {st.session_state.end_to_end_error_phase}: {str(e)}")
+                st.rerun()
+                
+            except PhaseOrderError as e:
+                st.session_state.end_to_end_running = False
+                st.session_state.end_to_end_error = str(e)
+                st.session_state.end_to_end_error_phase = getattr(e, 'phase', 'Unknown')
+                st.error(f"❌ Phase Order Error in {st.session_state.end_to_end_error_phase}: {str(e)}")
+                st.rerun()
+                
+            except Exception as e:
+                st.session_state.end_to_end_running = False
+                st.session_state.end_to_end_error = str(e)
+                st.session_state.end_to_end_error_phase = "Unknown"
+                st.error(f"❌ Error during pipeline execution: {str(e)}")
+                st.rerun()
+
+# Display error if any
+if st.session_state.end_to_end_error:
+    st.markdown("---")
+    with st.expander("🔍 Error Details", expanded=True):
+        st.error(f"**Failed Phase:** {st.session_state.end_to_end_error_phase}")
+        st.error(f"**Error Message:** {st.session_state.end_to_end_error}")
+
+# Display summary if pipeline completed
+if st.session_state.phase5_5_assemble_result and not st.session_state.end_to_end_running:
+    st.markdown("---")
+    assemble_result = st.session_state.phase5_5_assemble_result
+    if assemble_result.get("success"):
+        summary = {
+            "Total Segments": st.session_state.phase4_video_plan.get("segment_count", 0),
+            "Successful Segments": st.session_state.phase5_render_result.get("successful_segments", 0),
+            "Final Video Path": assemble_result.get("output_path", "N/A"),
+            "Total Duration": f"{st.session_state.phase4_video_plan.get('total_duration', 0):.1f}s"
+        }
+        st.markdown('<h3 class="section-title">📊 Pipeline Summary</h3>', unsafe_allow_html=True)
+        cols = st.columns(len(summary))
+        for idx, (key, value) in enumerate(summary.items()):
+            with cols[idx]:
+                st.metric(key, value)
+
+st.markdown("---")
 
 # ==================== Phase 1: Story Input ====================
 if "Phase 1" in selected_phase:

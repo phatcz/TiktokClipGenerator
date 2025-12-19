@@ -46,9 +46,9 @@
 ### Streamlit App
 - **File**: `app_streamlit.py`
 - **Status**: UI complete, phase integration complete.
+- **UI end-to-end pipeline VERIFIED (EP S02)**: Full pipeline execution (Phase 1 → 5.5) tested and verified. End-to-end run button added with proper error handling and session state management.
 - **Fragility**: 
   - No stdout wrapper in this file (correct).
-  - End-to-end flow in UI not fully tested (documented in STATUS_SUMMARY.md).
   - Depends on phase modules that have stdout wrappers in their main blocks (not active during import, but still present).
 
 ### Duration Contract Documentation
